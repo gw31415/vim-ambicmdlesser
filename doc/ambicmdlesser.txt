@@ -1,0 +1,54 @@
+*ambicmdlesser.txt*      Minimal ambiguous command expander
+
+==============================================================================
+INTRODUCTION                                              *vim-ambicmdlesser*
+
+`vim-ambicmdlesser` is a minimal arrangement of |thinca/vim-ambicmd|.
+
+It provides a lightweight function to expand commands based on
+case-insensitive prefix matching.
+
+------------------------------------------------------------------------------
+MOTIVATION                                                *vim-ambicmdlesser-motivation*
+
+|vim-ambicmd| is a powerful plugin that enables flexible, ambiguous command
+execution. However, for users who already rely on completion frameworks such as
+|nvim-cmp|, |blink.cmp|, or |ddc.vim|, a large and feature-rich solution may
+not be necessary.
+
+In particular, when mapping commands to <CR>, users often prefer predictable,
+less ambiguous completions. `vim-ambicmdlesser` offers a simpler alternative
+with only a single function to perform case-insensitive prefix-based expansion.
+
+------------------------------------------------------------------------------
+FUNCTIONS                                                 *vim-ambicmdlesser-functions*
+
+                                                            *ambicmdlesser#expand()*
+ambicmdlesser#expand({key})
+    Expands the currently typed command in the command line.
+    If the typed text is a case-insensitive prefix of a unique command,
+    it will be expanded automatically.
+
+------------------------------------------------------------------------------
+EXAMPLES                                                  *vim-ambicmdlesser-examples*
+
+>
+    cnoremap <expr> <Space> ambicmdlesser#expand('\<Space>')
+    cnoremap <expr> <CR>    ambicmdlesser#expand('\<CR>')
+<
+With this mapping, pressing <CR> in the command line attempts to expand the
+command before execution.
+
+------------------------------------------------------------------------------
+RELATED PLUGINS                                           *vim-ambicmdlesser-related*
+
+- |thinca/vim-ambicmd| — Inspiration and base for this plugin.
+
+------------------------------------------------------------------------------
+LICENSE                                                   *vim-ambicmdlesser-license*
+
+This plugin is distributed under the Apache License 2.0.
+See the LICENSE file for details.
+
+------------------------------------------------------------------------------
+vim:tw=78:ts=8:ft=help:norl:
