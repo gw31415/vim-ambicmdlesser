@@ -1,7 +1,7 @@
 fu ambicmdlesser#expand(key) abort
 	let i_len = getcmdpos() - 1
 	let i = getcmdline()->strpart(0, i_len)
-	if i =~# '^[!-~]\+$'
+	if i =~# '^[A-Za-z][A-Za-z0-9]*$'
 		let cmds = getcompletion('', 'cmdline')->filter({_,v -> v ==? i})
 
 		if len(cmds) > 0 && index(cmds, i) < 0
