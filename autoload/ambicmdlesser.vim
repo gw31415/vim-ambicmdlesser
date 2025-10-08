@@ -22,10 +22,11 @@ fu ambicmdlesser#expand(key) abort
 	end
 
 	cal filter(cmds, {_,v -> v ==? cmd})
-	if !empty(cmds) && index(cmds, cmd) < 0
-		let cmd = cmds[0]
-		let bses = repeat("\<bs>", strcharlen(cmd))
-		retu bses .. cmd .. a:key
+	if empty(cmds) || index(cmds, cmd) >= 0
+		retu a:key
 	end
-	retu a:key
+
+	let cmd = cmds[0]
+	let bses = repeat("\<bs>", strcharlen(cmd))
+	retu bses .. cmd .. a:key
 endf
