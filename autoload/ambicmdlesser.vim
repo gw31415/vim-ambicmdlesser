@@ -5,7 +5,7 @@ endf
 fu ambicmdlesser#expand(key) abort
 	let cmdline = getcmdline()
 	let leading = cmdline->strpart(0, getcmdpos() - 1)
-	let matches = leading->matchlist('\c\v^(.{-}\s?)(\a[a-z0-9]*)$')
+	let matches = leading->matchlist('\c\v^(.{-}\s?)([a-z][a-z\d]*)$')
 	if empty(matches)
 		retu a:key
 	end
