@@ -1,16 +1,16 @@
 fu s:getcompletion(leading = '') abort
-	return getcompletion(a:leading, 'cmdline')->filter({_,v -> empty(v) || v[0] =~? '[a-z]'} )
+	return getcompletion(a:leading, 'cmdline')->filter({_,v -> empty(v) || v[0] =~ '\a'} )
 endf
 
 fu ambicmdlesser#expand(key) abort
 	let cmdline = getcmdline()
 	let leading = cmdline->strpart(0, getcmdpos() - 1)
-	let matches = leading->matchlist('^\(.\{-}\s\?\)\([a-zA-Z][a-zA-Z0-9]*\)$')
+	let matches = leading->matchlist('\c\v^(.{-}\s?)(\a[a-z0-9]*)$')
 	if empty(matches)
 		retu a:key
 	end
 	let char_behind = cmdline->strgetchar(strcharlen(leading))
-	if char_behind != -1 && char_behind->nr2char() !~# '\s'
+	if char_behind != -1 && char_behind->nr2char() !~ '\s'
 		retu a:key
 	end
 
