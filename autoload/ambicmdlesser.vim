@@ -2,7 +2,15 @@ fu s:getcompletion(leading = '') abort
 	return getcompletion(a:leading, 'cmdline')->filter({_,v -> empty(v) || v[0] =~ '\a'} )
 endf
 
-fu ambicmdlesser#expand(key) abort
+fu ambicmdlesser#default_matcher(cmds, query) abort
+	cal filter(a:cmds, {_,v -> v ==? a:query })
+	if empty(a:cmds) || index(a:cmds, a:query) >= 0
+		retu v:null
+	end
+	retu a:cmds[0]
+endf
+
+fu ambicmdlesser#expand(key, opts = {}) abort
 	let cmdline = getcmdline()
 	let leading = cmdline->strpart(0, getcmdpos() - 1)
 	let matches = leading->matchlist('\c\v^(.{-}\s?)([a-z][a-z\d]*)$')
@@ -21,12 +29,9 @@ fu ambicmdlesser#expand(key) abort
 		retu a:key
 	end
 
-	cal filter(cmds, {_,v -> v ==? cmd})
-	if empty(cmds) || index(cmds, cmd) >= 0
-		retu a:key
+	let completed = call(get(a:opts, 'matcher', function('ambicmdlesser#default_matcher')), [cmds, cmd])
+	if completed != v:null
+		retu repeat("\<bs>", strcharlen(cmd)) .. completed .. a:key
 	end
-
-	let cmd = cmds[0]
-	let bses = repeat("\<bs>", strcharlen(cmd))
-	retu bses .. cmd .. a:key
+	retu a:key
 endf
