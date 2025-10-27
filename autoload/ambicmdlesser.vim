@@ -11,6 +11,9 @@ fu ambicmdlesser#default_matcher(cmds, query) abort
 endf
 
 fu ambicmdlesser#expand(key, opts = {}) abort
+	if getcmdtype() != ':'
+		retu a:key
+	end
 	let cmdline = getcmdline()
 	let leading = cmdline->strpart(0, getcmdpos() - 1)
 	let matches = leading->matchlist('\c\v^(.{-}\s?)([a-z][a-z\d]*)$')
